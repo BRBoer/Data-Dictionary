@@ -1,0 +1,8 @@
+
+*.aux
+*.gz
+*.toc
+*.tex
+*.log
+*.pdf
+out.synctex(busy)

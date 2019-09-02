@@ -1,4 +1,6 @@
 dictionary:
+  author: Author Name
+  title: Dictionary Title
   sections:
     -
       name: A

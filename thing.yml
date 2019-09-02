@@ -1,0 +1,20 @@
+dictionary:
+  sections:
+    -
+      name: A
+      words:
+        -
+          ipa: kita
+          etymology: rgtgareygh
+          ortho: hello
+          definitions:
+            -
+              pos: n
+              meaning: tree
+        -
+          ipa: sini
+          ortho: sini
+          definitions:
+            -
+              pos: n
+              meaning: mother

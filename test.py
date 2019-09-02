@@ -62,6 +62,10 @@ def yamlToLatex(filename):
 \\usepackage[headheight=15pt,hmarginratio=1:1]{geometry}
 \\usepackage{fontspec}
 \\usepackage{fancyhdr}
+\\usepackage[explicit]{titlesec}
+\\titleformat{\section}{\Large\\bf}{}{0em}{#1}
+
+
 
 \\fancypagestyle{plain}{
   \\fancyhf{} % clear all header and footers
@@ -76,15 +80,14 @@ def yamlToLatex(filename):
 
 \\setmainfont{Linux Libertine O}
 \\begin{document}
-\\author{Name}
-\\title{Proto-Wei: Comprehensive Dictionary}
+\\author{''' + data['dictionary']['author'] + '''}
+\\title{''' + data['dictionary']['title'] + '''}
 
 \\frontmatter
 \\maketitle
 \\tableofcontents
 
 \\mainmatter
-\\chapter{Lexemeber}
 
 '''
 + latex.rstrip('\\bigbreak') + '''

@@ -10,6 +10,8 @@ def dothings(index, word):
 
   if 'ipa' in word:
     entry += ' - [' + word['ipa'] + ']'
+  if 'etymology' in word:
+    entry += ' ← ' + word['etymology']
   
   entry += '''
 \hangindent=\parindent
@@ -23,6 +25,10 @@ def dothings(index, word):
       
       if 'meaning' in definition:
         entry += '\\enspace '+ definition['meaning'] + '\n'
+        
+        entry += '''
+\hangindent=\parindent
+\hangafter=1'''
 
   # if dictionary.index(word) != len(dictionary)-1:
   entry += '\\bigbreak'
@@ -41,7 +47,7 @@ def posToAbbrev(pos):
 def yamlToLatex(filename):
   entry = ''
   latex = ''
-  with open(filename) as f:
+  with open(filename, encoding='utf-8') as f:
     # use safe_load instead load
     data = yaml.safe_load(f)
     dictionary = data['dictionary']
@@ -57,8 +63,8 @@ def yamlToLatex(filename):
         entry += dothings(index, word)
     latex += entry
       
-    with open('./out.tex', 'w+') as out:
-      out.write('''\documentclass[openany, 12pt, twoside]{book}
+    with open('./out.tex', 'w+', encoding='utf-8') as out:
+      out.write('''\documentclass[openany, 12pt, twoside, twocolumn]{book}
 \\usepackage[headheight=15pt,hmarginratio=1:1]{geometry}
 \\usepackage{fontspec}
 \\usepackage{fancyhdr}

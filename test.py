@@ -1,4 +1,4 @@
-def dothings(index, word):
+def parseEntry(index, word):
   entry = ''
   latex = ''
   try:
@@ -30,8 +30,7 @@ def dothings(index, word):
 \hangindent=\parindent
 \hangafter=1'''
 
-  # if dictionary.index(word) != len(dictionary)-1:
-  entry += '\\bigbreak'
+# TODO : Fix linebreaking
   # aggregate entries
   latex += entry
   return latex
@@ -56,11 +55,15 @@ def yamlToLatex(filename):
       for section in sections:
         entry += '\\section{' + section['name'] + '}'
         for index, word in enumerate(section['words']):
-          entry += dothings(index, word)
+          entry += parseEntry(index, word)
+          entry += '\\bigbreak'
+        entry = entry.rstrip('\\bigbreak')
     else:
       dictionary = dictionary['words']
       for index, word in enumerate(dictionary):
-        entry += dothings(index, word)
+        entry += parseEntry(index, word)
+        entry += '\\bigbreak'
+      entry = entry.rstrip('\\bigbreak')
     latex += entry
       
     with open('./out.tex', 'w+', encoding='utf-8') as out:
@@ -70,8 +73,6 @@ def yamlToLatex(filename):
 \\usepackage{fancyhdr}
 \\usepackage[explicit]{titlesec}
 \\titleformat{\section}{\Large\\bf}{}{0em}{#1}
-
-
 
 \\fancypagestyle{plain}{
   \\fancyhf{} % clear all header and footers
@@ -96,14 +97,14 @@ def yamlToLatex(filename):
 \\mainmatter
 
 '''
-+ latex.rstrip('\\bigbreak') + '''
++ latex + '''
 
 \\backmatter
 % bibliography, glossary and index would go here.
 
 \\end{document}''')
 
-yamlToLatex('thing.yml')
+yamlToLatex('dictionary.yml')
 
 
 # if __name__ == 'main':

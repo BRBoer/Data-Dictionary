@@ -13,22 +13,16 @@ def parseEntry(index, word):
   if 'etymology' in word:
     entry += ' ← ' + word['etymology']
   
-  entry += '''
-\hangindent=\parindent
-\hangafter=1
-'''
   if 'definitions' in word:
+    entry += '\n\\begin{enumerate}\n'
     definitions = word['definitions']
     for definition in definitions:
       if 'pos' in definition:
-        entry +='\n\\textbf{' + posToAbbrev(definition['pos']) + '.}'
+        entry +='  \\item ' + posToAbbrev(definition['pos']) + '.'
       
       if 'meaning' in definition:
         entry += '\\enspace '+ definition['meaning'] + '\n'
-        
-        entry += '''
-\hangindent=\parindent
-\hangafter=1'''
+    entry += '\\end{enumerate}\n\n'
 
 # TODO : Fix linebreaking
   # aggregate entries
@@ -53,7 +47,7 @@ def yamlToLatex(filename):
     if 'sections' in dictionary:
       sections = dictionary['sections']
       for section in sections:
-        entry += '\\section{' + section['name'] + '}'
+        entry += '\\section{' + section['name'] + '}\n'
         for index, word in enumerate(section['words']):
           entry += parseEntry(index, word)
           entry += '\\bigbreak'
@@ -73,6 +67,10 @@ def yamlToLatex(filename):
 \\usepackage{fancyhdr}
 \\usepackage[explicit]{titlesec}
 \\titleformat{\section}{\Large\\bf}{}{0em}{#1}
+\\usepackage{enumitem}
+\\setlist{nosep}
+\\setenumerate[1]{\\textbf{\\arabic*:}} % Global setting
+
 
 \\fancypagestyle{plain}{
   \\fancyhf{} % clear all header and footers
